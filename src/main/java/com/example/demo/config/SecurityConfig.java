@@ -23,13 +23,13 @@ public class SecurityConfig {
                 config.setAllowedHeaders(List.of("*"));
                 return config;
             }))
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.disable()) // CSRF disable panrom testing-kaga
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Ellathaiyum ippo allow panrom, so token illama check pannalam
-                .requestMatchers("/", "/status", "/auth/**", "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .anyRequest().permitAll() 
-            );
+                .anyRequest().permitAll() // Ella API-aiyum login illama access panna allow panrom
+            )
+            .httpBasic(basic -> basic.disable()) // Login prompt varaama irukka disable panrom
+            .formLogin(form -> form.disable());
 
         return http.build();
     }
