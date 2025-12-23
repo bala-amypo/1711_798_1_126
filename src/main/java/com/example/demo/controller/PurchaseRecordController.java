@@ -1,35 +1,29 @@
-package com.example.demo.service;
+package com.example.demo.controller;
 
 import com.example.demo.model.PurchaseRecord;
-import com.example.demo.repository.PurchaseRecordRepository;
-import org.springframework.stereotype.Service;
+import com.example.demo.service.PurchaseRecordService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Service
-public class PurchaseRecordService {
+@RestController
+@RequestMapping("/api/purchases")
+public class PurchaseRecordController {
 
-    private final PurchaseRecordRepository repository;
+    private final PurchaseRecordService purchaseService;
 
-    public PurchaseRecordService(PurchaseRecordRepository repository) {
-        this.repository = repository;
+    public PurchaseRecordController(PurchaseRecordService purchaseService) {
+        this.purchaseService = purchaseService;
     }
 
-    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
-        return repository.save(purchase);
+    @PostMapping
+    public ResponseEntity<PurchaseRecord> addPurchase(@RequestBody PurchaseRecord purchase) {
+        return ResponseEntity.ok(purchaseService.recordPurchase(purchase));
     }
 
-    public List<PurchaseRecord> getPurchasesByCustomerId(Long customerId) {
-        return repository.findByCustomerId(customerId);
-    }
-
-    // 🔴 ADD THIS
-    public PurchaseRecord getPurchaseById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    // 🔴 ADD THIS
-    public List<PurchaseRecord> getAllPurchases() {
-        return repository.findAll();
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<PurchaseRecord>> getCustomerPurchases(@PathVariable Long customerId) {
+        return ResponseEntity.ok(purchaseService.getPurchasesByCustomerId(customerId));
     }
 }
