@@ -11,10 +11,8 @@ import java.util.List;
 @RequestMapping("/api/customers")
 public class CustomerProfileController {
 
-    // Interface-ah mattum thaan inga use panrom (Loose Coupling)
     private final CustomerProfileService service;
 
-    // Strict Constructor Injection
     public CustomerProfileController(CustomerProfileService service) {
         this.service = service;
     }
@@ -29,8 +27,25 @@ public class CustomerProfileController {
         return ResponseEntity.ok(service.getAllCustomers());
     }
 
-    @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerProfile> getCustomer(@PathVariable String customerId) {
+    // Inga question-la path id-nu ketrukanga, change to {id}
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerProfile> getCustomer(@PathVariable String id) {
+        return ResponseEntity.ok(service.getCustomerByBusinessId(id));
+    }
+
+    // --- PUDHU CODE INGA ADD PANNUM ---
+
+    // 1. PUT /{id}/tier - Update manual tier
+    @PutMapping("/{id}/tier")
+    public ResponseEntity<CustomerProfile> updateTier(@PathVariable String id, @RequestBody String newTier) {
+        // Service-la updateTier logic-ah call pannunga
+        return ResponseEntity.ok(service.updateCustomerTier(id, newTier));
+    }
+
+    // 2. GET /lookup/{customerId} - Exact match for your question
+    @GetMapping("/lookup/{customerId}")
+    public ResponseEntity<CustomerProfile> lookupCustomer(@PathVariable String customerId) {
+        // Lookup logic simple-ah same getCustomer logic dhaan
         return ResponseEntity.ok(service.getCustomerByBusinessId(customerId));
     }
 }
