@@ -12,7 +12,6 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private final CustomerProfileRepository repository;
 
-    // Strict Constructor Injection
     public CustomerProfileServiceImpl(CustomerProfileRepository repository) {
         this.repository = repository;
     }
@@ -31,5 +30,14 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     public CustomerProfile getCustomerByBusinessId(String customerId) {
         return repository.findByCustomerId(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with ID: " + customerId));
+    }
+
+    @Override
+    public CustomerProfile updateCustomerTier(String customerId, String newTier) {
+        CustomerProfile customer = repository.findByCustomerId(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with ID: " + customerId));
+        
+        customer.setTier(newTier); // Make sure 'tier' field exists in CustomerProfile model
+        return repository.save(customer);
     }
 }
