@@ -7,6 +7,4 @@ public interface CustomerProfileService {
     CustomerProfile createCustomer(CustomerProfile customer);
     List<CustomerProfile> getAllCustomers();
     CustomerProfile getCustomerByBusinessId(String customerId);
-    // Pudhu method for tier update
-    CustomerProfile updateCustomerTier(String customerId, String newTier);
 }

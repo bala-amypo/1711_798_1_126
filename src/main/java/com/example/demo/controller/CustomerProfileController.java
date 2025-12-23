@@ -1,35 +1,36 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import com.example.demo.model.CustomerProfile;
+import com.example.demo.service.CustomerProfileService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "customer_profiles")
-@Data // Idhu thaan Getter and Setter-ah auto-ah create pannum
-@NoArgsConstructor
-@AllArgsConstructor
-public class CustomerProfile {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@RestController
+@RequestMapping("/api/customers")
+public class CustomerProfileController {
 
-    private String customerId; // Business ID
-    private String name;
-    private String email;
-    
-    // Indha line thaan missing! Idhai kandippa add pannunga
-    private String tier; 
+    // Interface-ah mattum thaan inga use panrom (Loose Coupling)
+    private final CustomerProfileService service;
 
-    // Oru velai neenga Lombok (@Data) use pannala na, 
-    // manual-ah indha setter-ah add pannunga:
-    public void setTier(String tier) {
-        this.tier = tier;
+    // Strict Constructor Injection
+    public CustomerProfileController(CustomerProfileService service) {
+        this.service = service;
     }
-    
-    public String getTier() {
-        return this.tier;
+
+    @PostMapping
+    public ResponseEntity<CustomerProfile> createCustomer(@RequestBody CustomerProfile customer) {
+        return ResponseEntity.ok(service.createCustomer(customer));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CustomerProfile>> getAllCustomers() {
+        return ResponseEntity.ok(service.getAllCustomers());
+    }
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerProfile> getCustomer(@PathVariable String customerId) {
+        return ResponseEntity.ok(service.getCustomerByBusinessId(customerId));
     }
 }
