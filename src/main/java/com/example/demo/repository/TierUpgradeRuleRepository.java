@@ -2,8 +2,11 @@ package com.example.demo.repository;
 
 import com.example.demo.model.TierUpgradeRule;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
+@Repository
 public interface TierUpgradeRuleRepository extends JpaRepository<TierUpgradeRule, Long> {
-    Optional<TierUpgradeRule> findByFromTierAndToTier(String from, String to);
+    // Missing /lookup logic-ku idhu venum
+    List<TierUpgradeRule> findByFromTierAndToTier(String fromTier, String toTier);
 }
