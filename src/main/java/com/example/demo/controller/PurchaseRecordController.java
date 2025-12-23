@@ -1,50 +1,35 @@
-package com.example.demo.controller;
+package com.example.demo.service;
 
 import com.example.demo.model.PurchaseRecord;
-import com.example.demo.service.PurchaseRecordService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.example.demo.repository.PurchaseRecordRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/purchases")
-public class PurchaseRecordController {
+@Service
+public class PurchaseRecordService {
 
-    private final PurchaseRecordService purchaseService;
+    private final PurchaseRecordRepository repository;
 
-    public PurchaseRecordController(PurchaseRecordService purchaseService) {
-        this.purchaseService = purchaseService;
+    public PurchaseRecordService(PurchaseRecordRepository repository) {
+        this.repository = repository;
     }
 
-    // 1️⃣ Record purchase
-    @PostMapping
-    public ResponseEntity<PurchaseRecord> addPurchase(@RequestBody PurchaseRecord purchase) {
-        return ResponseEntity.ok(purchaseService.recordPurchase(purchase));
+    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
+        return repository.save(purchase);
     }
 
-    // 2️⃣ Get purchases by customer
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<PurchaseRecord>> getCustomerPurchases(
-            @PathVariable Long customerId) {
-        return ResponseEntity.ok(
-                purchaseService.getPurchasesByCustomerId(customerId)
-        );
+    public List<PurchaseRecord> getPurchasesByCustomerId(Long customerId) {
+        return repository.findByCustomerId(customerId);
     }
 
-    // 3️⃣ 🔴 MISSING API – Get by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<PurchaseRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                purchaseService.getPurchaseById(id)
-        );
+    // 🔴 ADD THIS
+    public PurchaseRecord getPurchaseById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
-    // 4️⃣ 🔴 MISSING API – List all
-    @GetMapping
-    public ResponseEntity<List<PurchaseRecord>> getAll() {
-        return ResponseEntity.ok(
-                purchaseService.getAllPurchases()
-        );
+    // 🔴 ADD THIS
+    public List<PurchaseRecord> getAllPurchases() {
+        return repository.findAll();
     }
 }
