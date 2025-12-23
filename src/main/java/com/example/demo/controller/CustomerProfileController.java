@@ -1,51 +1,35 @@
-package com.example.demo.controller;
+package com.example.demo.model;
 
-import com.example.demo.model.CustomerProfile;
-import com.example.demo.service.CustomerProfileService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import java.util.List;
+@Entity
+@Table(name = "customer_profiles")
+@Data // Idhu thaan Getter and Setter-ah auto-ah create pannum
+@NoArgsConstructor
+@AllArgsConstructor
+public class CustomerProfile {
 
-@RestController
-@RequestMapping("/api/customers")
-public class CustomerProfileController {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final CustomerProfileService service;
+    private String customerId; // Business ID
+    private String name;
+    private String email;
+    
+    // Indha line thaan missing! Idhai kandippa add pannunga
+    private String tier; 
 
-    public CustomerProfileController(CustomerProfileService service) {
-        this.service = service;
+    // Oru velai neenga Lombok (@Data) use pannala na, 
+    // manual-ah indha setter-ah add pannunga:
+    public void setTier(String tier) {
+        this.tier = tier;
     }
-
-    @PostMapping
-    public ResponseEntity<CustomerProfile> createCustomer(@RequestBody CustomerProfile customer) {
-        return ResponseEntity.ok(service.createCustomer(customer));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<CustomerProfile>> getAllCustomers() {
-        return ResponseEntity.ok(service.getAllCustomers());
-    }
-
-    // Inga question-la path id-nu ketrukanga, change to {id}
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerProfile> getCustomer(@PathVariable String id) {
-        return ResponseEntity.ok(service.getCustomerByBusinessId(id));
-    }
-
-    // --- PUDHU CODE INGA ADD PANNUM ---
-
-    // 1. PUT /{id}/tier - Update manual tier
-    @PutMapping("/{id}/tier")
-    public ResponseEntity<CustomerProfile> updateTier(@PathVariable String id, @RequestBody String newTier) {
-        // Service-la updateTier logic-ah call pannunga
-        return ResponseEntity.ok(service.updateCustomerTier(id, newTier));
-    }
-
-    // 2. GET /lookup/{customerId} - Exact match for your question
-    @GetMapping("/lookup/{customerId}")
-    public ResponseEntity<CustomerProfile> lookupCustomer(@PathVariable String customerId) {
-        // Lookup logic simple-ah same getCustomer logic dhaan
-        return ResponseEntity.ok(service.getCustomerByBusinessId(customerId));
+    
+    public String getTier() {
+        return this.tier;
     }
 }
