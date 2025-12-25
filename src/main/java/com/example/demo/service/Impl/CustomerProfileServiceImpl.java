@@ -1,18 +1,18 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
-import com.example.demo.service.CustomerProfileService;
-import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private final CustomerProfileRepository repository;
 
-    // Strict Constructor Injection
+    // ✅ CONSTRUCTOR ORDER MUST MATCH
     public CustomerProfileServiceImpl(CustomerProfileRepository repository) {
         this.repository = repository;
     }
@@ -23,13 +23,33 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
+    public CustomerProfile getCustomerById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public CustomerProfile findByCustomerId(String customerId) {
+        return repository.findByCustomerId(customerId)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
     public List<CustomerProfile> getAllCustomers() {
         return repository.findAll();
     }
 
     @Override
-    public CustomerProfile getCustomerByBusinessId(String customerId) {
-        return repository.findByCustomerId(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with ID: " + customerId));
+    public CustomerProfile updateTier(Long id, String newTier) {
+        CustomerProfile customer = getCustomerById(id);
+        customer.setCurrentTier(newTier);
+        return repository.save(customer);
+    }
+
+    @Override
+    public CustomerProfile updateStatus(Long id, boolean active) {
+        CustomerProfile customer = getCustomerById(id);
+        customer.setActive(active);
+        return repository.save(customer);
     }
 }
