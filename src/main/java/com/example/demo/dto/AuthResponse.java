@@ -1,12 +1,9 @@
 package com.example.demo.dto;
-import lombok.Data;
 
-@Data
 public class AuthResponse {
-    private String accessToken;
-    private String tokenType = "Bearer";
+    public String token;
 
-    public AuthResponse(String accessToken) {
-        this.accessToken = accessToken;
+    public AuthResponse(String token) {
+        this.token = token;
     }
 }
