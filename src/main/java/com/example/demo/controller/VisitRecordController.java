@@ -1,41 +1,40 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.VisitRecord;
-import com.example.demo.repository.VisitRecordRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.VisitRecordService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/visits")
+@Tag(name = "Visit API")
 public class VisitRecordController {
 
-    @Autowired
-    private VisitRecordRepository visitRecordRepository;
+    private final VisitRecordService service;
 
-    // 1. POST / - Record visit
-    @PostMapping("/")
+    public VisitRecordController(VisitRecordService service) {
+        this.service = service;
+    }
+
+    @PostMapping
     public VisitRecord recordVisit(@RequestBody VisitRecord visit) {
-        return visitRecordRepository.save(visit);
+        return service.recordVisit(visit);
     }
 
-    // 2. GET /customer/{customerId} - Get for customer
     @GetMapping("/customer/{customerId}")
-    public List<VisitRecord> getVisitsByCustomer(@PathVariable String customerId) {
-        return visitRecordRepository.findByCustomerBusinessId(customerId);
+    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
+        return service.getVisitsByCustomer(customerId);
     }
 
-    // 3. GET /{id} - Get by ID
     @GetMapping("/{id}")
-    public VisitRecord getVisitById(@PathVariable Long id) {
-        return visitRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Visit record not found with id: " + id));
+    public VisitRecord getById(@PathVariable Long id) {
+        return service.getVisitById(id);
     }
 
-    // 4. GET / - List all
-    @GetMapping("/")
-    public List<VisitRecord> getAllVisits() {
-        return visitRecordRepository.findAll();
+    @GetMapping
+    public List<VisitRecord> getAll() {
+        return service.getAllVisits();
     }
 }

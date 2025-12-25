@@ -2,35 +2,46 @@ package com.example.demo.controller;
 
 import com.example.demo.model.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
-import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
+@Tag(name = "Customer API")
 public class CustomerProfileController {
 
-    // Interface-ah mattum thaan inga use panrom (Loose Coupling)
     private final CustomerProfileService service;
 
-    // Strict Constructor Injection
     public CustomerProfileController(CustomerProfileService service) {
         this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<CustomerProfile> createCustomer(@RequestBody CustomerProfile customer) {
-        return ResponseEntity.ok(service.createCustomer(customer));
+    public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
+        return service.createCustomer(customer);
+    }
+
+    @GetMapping("/{id}")
+    public CustomerProfile getCustomer(@PathVariable Long id) {
+        return service.getCustomerById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerProfile>> getAllCustomers() {
-        return ResponseEntity.ok(service.getAllCustomers());
+    public List<CustomerProfile> getAllCustomers() {
+        return service.getAllCustomers();
     }
 
-    @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerProfile> getCustomer(@PathVariable String customerId) {
-        return ResponseEntity.ok(service.getCustomerByBusinessId(customerId));
+    @PutMapping("/{id}/tier")
+    public CustomerProfile updateTier(
+            @PathVariable Long id,
+            @RequestParam String newTier) {
+        return service.updateTier(id, newTier);
+    }
+
+    @GetMapping("/lookup/{customerId}")
+    public CustomerProfile lookup(@PathVariable String customerId) {
+        return service.findByCustomerId(customerId);
     }
 }

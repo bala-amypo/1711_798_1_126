@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+/*package com.example.demo.controller;
 
 import com.example.demo.service.TierUpgradeEngineService;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +19,4 @@ public class TierUpgradeController {
         String result = upgradeService.evaluateAndUpgradeTier(businessId);
         return ResponseEntity.ok(result);
     }
-}
+}*/

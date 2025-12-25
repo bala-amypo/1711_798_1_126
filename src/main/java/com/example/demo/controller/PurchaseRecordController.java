@@ -1,41 +1,40 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.PurchaseRecord;
-import com.example.demo.repository.PurchaseRecordRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.PurchaseRecordService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/purchases")
+@Tag(name = "Purchase API")
 public class PurchaseRecordController {
 
-    @Autowired
-    private PurchaseRecordRepository purchaseRecordRepository;
+    private final PurchaseRecordService service;
 
-    // 1. POST / - Record purchase
-    @PostMapping("/")
+    public PurchaseRecordController(PurchaseRecordService service) {
+        this.service = service;
+    }
+
+    @PostMapping
     public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
-        return purchaseRecordRepository.save(purchase);
+        return service.recordPurchase(purchase);
     }
 
-    // 2. GET /customer/{customerId} - Get for customer
     @GetMapping("/customer/{customerId}")
-    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable String customerId) {
-        return purchaseRecordRepository.findByCustomerBusinessId(customerId);
+    public List<PurchaseRecord> getByCustomer(@PathVariable Long customerId) {
+        return service.getPurchasesByCustomer(customerId);
     }
 
-    // 3. GET /{id} - Get by ID (Missing ah irundhadhu)
     @GetMapping("/{id}")
-    public PurchaseRecord getPurchaseById(@PathVariable Long id) {
-        return purchaseRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Purchase not found with id: " + id));
+    public PurchaseRecord getById(@PathVariable Long id) {
+        return service.getPurchaseById(id);
     }
 
-    // 4. GET / - List all (Missing ah irundhadhu)
-    @GetMapping("/")
-    public List<PurchaseRecord> getAllPurchases() {
-        return purchaseRecordRepository.findAll();
+    @GetMapping
+    public List<PurchaseRecord> getAll() {
+        return service.getAllPurchases();
     }
 }
