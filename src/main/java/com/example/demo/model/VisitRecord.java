@@ -3,7 +3,6 @@ package com.example.demo.model;
 import java.time.LocalDate;
 
 public class VisitRecord {
-
     private Long id;
     private CustomerProfile customer;
     private String channel;

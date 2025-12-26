@@ -1,12 +1,11 @@
 package com.example.demo.model;
 
 public class TierUpgradeRule {
-
     private Long id;
     private String fromTier;
     private String toTier;
-    private double minSpend;
-    private int minVisits;
+    private Double minSpend;
+    private Integer minVisits;
     private boolean active;
 
     public Long getId() { return id; }
@@ -18,11 +17,11 @@ public class TierUpgradeRule {
     public String getToTier() { return toTier; }
     public void setToTier(String toTier) { this.toTier = toTier; }
 
-    public double getMinSpend() { return minSpend; }
-    public void setMinSpend(double minSpend) { this.minSpend = minSpend; }
+    public Double getMinSpend() { return minSpend; }
+    public void setMinSpend(Double minSpend) { this.minSpend = minSpend; }
 
-    public int getMinVisits() { return minVisits; }
-    public void setMinVisits(int minVisits) { this.minVisits = minVisits; }
+    public Integer getMinVisits() { return minVisits; }
+    public void setMinVisits(Integer minVisits) { this.minVisits = minVisits; }
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
