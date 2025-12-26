@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+/*package com.example.demo.controller;
 
 import com.example.demo.model.PurchaseRecord;
 import com.example.demo.service.PurchaseRecordService;
@@ -38,3 +38,4 @@ public class PurchaseRecordController {
         return service.getAllPurchases();
     }
 }
+*/
