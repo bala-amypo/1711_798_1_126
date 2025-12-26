@@ -1,41 +1,37 @@
-/*package com.example.demo.controller;
+package com.example.demo.controller;
 
 import com.example.demo.model.PurchaseRecord;
 import com.example.demo.service.PurchaseRecordService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/purchases")
-@Tag(name = "Purchase API")
 public class PurchaseRecordController {
 
-    private final PurchaseRecordService service;
+    private final PurchaseRecordService purchaseService;
 
-    public PurchaseRecordController(PurchaseRecordService service) {
-        this.service = service;
+    public PurchaseRecordController(PurchaseRecordService purchaseService) {
+        this.purchaseService = purchaseService;
     }
 
-    @PostMapping
+    @PostMapping("/")
     public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
-        return service.recordPurchase(purchase);
+        return purchaseService.recordPurchase(purchase);
     }
 
     @GetMapping("/customer/{customerId}")
-    public List<PurchaseRecord> getByCustomer(@PathVariable Long customerId) {
-        return service.getPurchasesByCustomer(customerId);
+    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
+        return purchaseService.getPurchasesByCustomer(customerId);
     }
 
     @GetMapping("/{id}")
-    public PurchaseRecord getById(@PathVariable Long id) {
-        return service.getPurchaseById(id);
+    public PurchaseRecord getPurchaseById(@PathVariable Long id) {
+        return purchaseService.getPurchaseById(id).orElseThrow();
     }
 
-    @GetMapping
-    public List<PurchaseRecord> getAll() {
-        return service.getAllPurchases();
+    @GetMapping("/")
+    public List<PurchaseRecord> getAllPurchases() {
+        return purchaseService.getAllPurchases();
     }
 }
-*/
