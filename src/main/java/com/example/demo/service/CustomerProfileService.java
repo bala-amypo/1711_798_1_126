@@ -1,26 +1,19 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service;
 
 import com.example.demo.model.CustomerProfile;
-import com.example.demo.service.CustomerProfileService;
-import org.springframework.stereotype.Service;
+import java.util.*;
 
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.List;
+public interface CustomerProfileService {
 
-@Service
-public class CustomerProfileServiceImpl implements CustomerProfileService {
+    CustomerProfile createCustomer(CustomerProfile customer);
 
-    private final List<CustomerProfile> customers = new ArrayList<>();
+    CustomerProfile getCustomerById(Long id);
 
-    @Override
-    public Optional<CustomerProfile> findByCustomerId(String customerId) {
-        return customers.stream().filter(c -> c.getCustomerId().equals(customerId)).findFirst();
-    }
+    Optional<CustomerProfile> findByCustomerId(String customerId);
 
-    @Override
-    public CustomerProfile saveCustomerProfile(CustomerProfile customer) {
-        customers.add(customer);
-        return customer;
-    }
+    List<CustomerProfile> getAllCustomers();
+
+    CustomerProfile updateTier(Long id, String newTier);
+
+    CustomerProfile updateStatus(Long id, boolean active);
 }

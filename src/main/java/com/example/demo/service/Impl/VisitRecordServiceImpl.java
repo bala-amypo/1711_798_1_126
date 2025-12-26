@@ -1,40 +1,39 @@
-package com.example.demo.service.impl;
+package com.example.demo.service.Impl;
 
 import com.example.demo.model.VisitRecord;
-import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
-
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository repository;
+    private final List<VisitRecord> visits = new ArrayList<>();
 
-    public VisitRecordServiceImpl(VisitRecordRepository repository) {
-        this.repository = repository;
+    @Override
+    public VisitRecord recordVisit(VisitRecord visit) {
+        visits.add(visit);
+        return visit;
     }
 
     @Override
-    public VisitRecord save(VisitRecord visit) {
-        return repository.save(visit);
+    public List<VisitRecord> getAllVisits() {
+        return visits;
     }
 
     @Override
-    public List<VisitRecord> getAll() {
-        return repository.findAll();
+    public VisitRecord getVisitById(Long id) {
+        return visits.stream().filter(v -> v.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
-    public VisitRecord getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Visit not found"));
-    }
-
-    @Override
-    public List<VisitRecord> getByCustomerId(Long customerId) {
-        return repository.findByCustomerId(customerId);
+    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
+        List<VisitRecord> result = new ArrayList<>();
+        for (VisitRecord v : visits) {
+            if (v.getCustomerId().equals(customerId)) result.add(v);
+        }
+        return result;
     }
 }
