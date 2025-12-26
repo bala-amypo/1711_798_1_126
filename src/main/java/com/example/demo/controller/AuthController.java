@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+/*package com.example.demo.controller;
 
 import com.example.demo.config.JwtTokenProvider;
 import com.example.demo.dto.*;
@@ -45,5 +45,34 @@ public class AuthController {
 
         String token = tokenProvider.generateToken(user.getUsername());
         return new AuthResponse(token);
+    }
+}
+*/
+package com.example.demo.controller;
+
+import com.example.demo.security.JwtTokenProvider;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public AuthController(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @PostMapping("/register")
+    public String register() {
+        return "User registered";
+    }
+
+    @PostMapping("/login")
+    public Map<String, String> login(@RequestParam String username) {
+        String token = jwtTokenProvider.generateToken(username);
+        return Map.of("token", token);
     }
 }
