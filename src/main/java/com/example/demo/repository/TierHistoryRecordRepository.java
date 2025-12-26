@@ -2,16 +2,9 @@ package com.example.demo.repository;
 
 import com.example.demo.model.TierHistoryRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface TierHistoryRecordRepository extends JpaRepository<TierHistoryRecord, Long> {
-
-    List<TierHistoryRecord> findByCustomerId(Long customerId);
+@Repository
+public interface TierHistoryRecordRepository
+        extends JpaRepository<TierHistoryRecord, Long> {
 }
-*/package com.example.demo.repository;
-
-import com.example.demo.model.TierHistoryRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface TierHistoryRecordRepository extends JpaRepository<TierHistoryRecord, Long> {}
