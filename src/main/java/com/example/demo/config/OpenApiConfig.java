@@ -22,6 +22,11 @@ public class OpenApiConfig {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")
+                .servers(Collections.singletonList(
+                        new Server().url("https://9236.pro604cr.amypo.ai/")
+                ));
+    }
+}
                         )
                 );
     }
