@@ -1,21 +1,23 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
 public class VisitRecord {
 
-    @Id
-    @GeneratedValue
     private Long id;
-
-    @ManyToOne
     private CustomerProfile customer;
-
+    private String channel;
     private LocalDate visitDate;
 
-    private String channel;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // getters & setters
+    public CustomerProfile getCustomer() { return customer; }
+    public void setCustomer(CustomerProfile customer) { this.customer = customer; }
+
+    public String getChannel() { return channel; }
+    public void setChannel(String channel) { this.channel = channel; }
+
+    public LocalDate getVisitDate() { return visitDate; }
+    public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
 }
