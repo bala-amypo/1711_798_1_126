@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.model.PurchaseRecord;
-import java.util.List;
+import com.example.demo.model.VisitRecord;
+import java.util.*;
 
-public interface PurchaseRecordService {
+public interface VisitRecordService {
 
-    PurchaseRecord save(PurchaseRecord purchase);
+    VisitRecord recordVisit(VisitRecord visit);
 
-    List<PurchaseRecord> getByCustomerId(Long customerId);
+    List<VisitRecord> getVisitsByCustomer(Long customerId);
+
+    List<VisitRecord> getAllVisits();
+
+    Optional<VisitRecord> getVisitById(Long id);
 }
