@@ -1,15 +1,30 @@
-package com.example.demo.service;
+package com.example.demo.service.Impl;
 
-import com.example.demo.model.VisitRecord;
-import java.util.*;
+import com.example.demo.model.PurchaseRecord;
+import com.example.demo.service.PurchaseRecordService;
+import org.springframework.stereotype.Service;
 
-public interface VisitRecordService {
+import java.util.ArrayList;
+import java.util.List;
 
-    VisitRecord recordVisit(VisitRecord visit);
+@Service
+public class PurchaseRecordServiceImpl implements PurchaseRecordService {
 
-    List<VisitRecord> getVisitsByCustomer(Long customerId);
+    private final List<PurchaseRecord> records = new ArrayList<>();
 
-    List<VisitRecord> getAllVisits();
+    @Override
+    public List<PurchaseRecord> getAllRecords() {
+        return records;
+    }
 
-    Optional<VisitRecord> getVisitById(Long id);
+    @Override
+    public PurchaseRecord getRecordById(Long id) {
+        return records.stream().filter(r -> r.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public PurchaseRecord saveRecord(PurchaseRecord record) {
+        records.add(record);
+        return record;
+    }
 }
