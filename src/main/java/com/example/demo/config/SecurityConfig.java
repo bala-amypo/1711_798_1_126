@@ -1,67 +1,43 @@
-/*package com.example.demo.config;
-
-import org.springframework.context.annotation.*;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-
-@Configuration
-public class SecurityConfig {
-
-    private final JwtAuthenticationFilter jwtFilter;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtFilter) {
-        this.jwtFilter = jwtFilter;
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/status").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().permitAll()
-            )
-            .addFilterBefore(jwtFilter,
-                    org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-}*/
-package com.example.demo.config;
+package com.example.demo.security;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.*;
+import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
-@Configuration
 public class SecurityConfig {
+
+    private final CustomUserDetailsService userDetailsService;
+
+    public SecurityConfig(CustomUserDetailsService uds) {
+        this.userDetailsService = uds;
+    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .and()
+                .build();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/status", "/swagger-ui/**", "/v3/api-docs/**")
-                .permitAll()
-                .anyRequest().authenticated()
-            );
+        http.csrf().disable()
+            .authorizeHttpRequests()
+            .requestMatchers("/auth/**", "/status").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         return http.build();
+    }
+
+    @Bean
+    public static NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 }

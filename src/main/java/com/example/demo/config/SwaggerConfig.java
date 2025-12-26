@@ -1,7 +1,8 @@
 package com.example.demo.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Info;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,11 +10,19 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customOpenAPI() {
+    public OpenAPI customerLoyaltyOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Customer Loyalty Tier Upgrader API")
-                        .version("1.0")
-                        .description("JWT secured loyalty system"));
+                        .description("JWT-secured Spring Boot API for managing customer loyalty tiers")
+                        .version("1.0.0"));
+    }
+
+    @Bean
+    public GroupedOpenApi publicApi() {
+        return GroupedOpenApi.builder()
+                .group("loyalty-api")
+                .pathsToMatch("/api/**")
+                .build();
     }
 }
