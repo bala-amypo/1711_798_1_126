@@ -1,14 +1,10 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
-
 public class TierHistoryRecord {
-
     private Long id;
     private CustomerProfile customer;
     private String fromTier;
     private String toTier;
-    private LocalDateTime upgradedAt;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -21,7 +17,4 @@ public class TierHistoryRecord {
 
     public String getToTier() { return toTier; }
     public void setToTier(String toTier) { this.toTier = toTier; }
-
-    public LocalDateTime getUpgradedAt() { return upgradedAt; }
-    public void setUpgradedAt(LocalDateTime upgradedAt) { this.upgradedAt = upgradedAt; }
 }

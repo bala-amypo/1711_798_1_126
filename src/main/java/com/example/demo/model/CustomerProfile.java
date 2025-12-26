@@ -3,7 +3,6 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 
 public class CustomerProfile {
-
     private Long id;
     private String customerId;
     private String fullName;
@@ -13,7 +12,6 @@ public class CustomerProfile {
     private boolean active;
     private LocalDateTime createdAt;
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

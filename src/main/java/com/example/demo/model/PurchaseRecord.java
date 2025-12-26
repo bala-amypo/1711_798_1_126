@@ -3,10 +3,9 @@ package com.example.demo.model;
 import java.time.LocalDate;
 
 public class PurchaseRecord {
-
     private Long id;
     private CustomerProfile customer;
-    private double amount;
+    private Double amount;
     private LocalDate purchaseDate;
     private String storeLocation;
 
@@ -16,8 +15,8 @@ public class PurchaseRecord {
     public CustomerProfile getCustomer() { return customer; }
     public void setCustomer(CustomerProfile customer) { this.customer = customer; }
 
-    public double getAmount() { return amount; }
-    public void setAmount(double amount) { this.amount = amount; }
+    public Double getAmount() { return amount; }
+    public void setAmount(Double amount) { this.amount = amount; }
 
     public LocalDate getPurchaseDate() { return purchaseDate; }
     public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
