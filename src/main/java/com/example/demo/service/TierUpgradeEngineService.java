@@ -1,16 +1,6 @@
-/*package com.example.demo.service;
-
-import com.example.demo.model.TierHistoryRecord;
-import java.util.List;
+package com.example.demo.service;
 
 public interface TierUpgradeEngineService {
 
-    void evaluateAndUpgradeTier(Long customerId);
-
-    List<TierHistoryRecord> getHistoryByCustomer(Long customerId);
-
-    List<TierHistoryRecord> getAllHistory();
-
-    TierHistoryRecord getHistoryById(Long id);
+    void evaluateTier(Long businessId);
 }
-*/

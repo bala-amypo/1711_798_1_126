@@ -1,11 +1,12 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.model.VisitRecord;
 import com.example.demo.repository.VisitRecordRepository;
+import com.example.demo.service.VisitRecordService;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
@@ -17,26 +18,23 @@ public class VisitRecordServiceImpl implements VisitRecordService {
     }
 
     @Override
-    public VisitRecord recordVisit(VisitRecord visit) {
-        if (!List.of("STORE", "APP", "WEB").contains(visit.getChannel())) {
-            throw new IllegalArgumentException("Invalid visit channel");
-        }
+    public VisitRecord save(VisitRecord visit) {
         return repository.save(visit);
     }
 
     @Override
-    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
-        return repository.findByCustomerId(customerId);
-    }
-
-    @Override
-    public List<VisitRecord> getAllVisits() {
+    public List<VisitRecord> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public VisitRecord getVisitById(Long id) {
+    public VisitRecord getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new RuntimeException("Visit not found"));
+    }
+
+    @Override
+    public List<VisitRecord> getByCustomerId(Long customerId) {
+        return repository.findByCustomerId(customerId);
     }
 }
