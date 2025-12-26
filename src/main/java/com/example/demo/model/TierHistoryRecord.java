@@ -1,20 +1,36 @@
 package com.example.demo.model;
 
-public class TierHistoryRecord {
-    private Long id;
-    private CustomerProfile customer;
-    private String fromTier;
-    private String toTier;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+public class TierHistoryRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long customerId;
+    private String oldTier;
+    private String newTier;
+    private String reason;
+    private LocalDateTime changedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.changedAt = LocalDateTime.now();
+    }
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public CustomerProfile getCustomer() { return customer; }
-    public void setCustomer(CustomerProfile customer) { this.customer = customer; }
-
-    public String getFromTier() { return fromTier; }
-    public void setFromTier(String fromTier) { this.fromTier = fromTier; }
-
-    public String getToTier() { return toTier; }
-    public void setToTier(String toTier) { this.toTier = toTier; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public String getOldTier() { return oldTier; }
+    public void setOldTier(String oldTier) { this.oldTier = oldTier; }
+    public String getNewTier() { return newTier; }
+    public void setNewTier(String newTier) { this.newTier = newTier; }
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
+    public LocalDateTime getChangedAt() { return changedAt; }
+    public void setChangedAt(LocalDateTime changedAt) { this.changedAt = changedAt; }
 }
