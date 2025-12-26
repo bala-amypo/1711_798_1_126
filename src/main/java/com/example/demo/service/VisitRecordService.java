@@ -1,12 +1,38 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.model.VisitRecord;
-import java.util.List;
-import java.util.Optional;
+import com.example.demo.service.VisitRecordService;
+import org.springframework.stereotype.Service;
 
-public interface VisitRecordService {
-    VisitRecord recordVisit(VisitRecord v);
-    List<VisitRecord> getVisitsByCustomer(Long cid);
-    List<VisitRecord> getAllVisits();
-    Optional<VisitRecord> getVisitById(Long id);
+import java.util.*;
+
+@Service
+public class VisitRecordServiceImpl implements VisitRecordService {
+
+    private final List<VisitRecord> list = new ArrayList<>();
+
+    @Override
+    public VisitRecord recordVisit(VisitRecord v) {
+        if (!List.of("STORE", "APP", "WEB").contains(v.getChannel()))
+            throw new IllegalArgumentException("Invalid channel");
+
+        v.setId((long) (list.size() + 1));
+        list.add(v);
+        return v;
+    }
+
+    @Override
+    public List<VisitRecord> getVisitsByCustomer(Long cid) {
+        return list;
+    }
+
+    @Override
+    public List<VisitRecord> getAllVisits() {
+        return list;
+    }
+
+    @Override
+    public Optional<VisitRecord> getVisitById(Long id) {
+        return list.stream().filter(v -> v.getId().equals(id)).findFirst();
+    }
 }
