@@ -50,3 +50,4 @@ public class TierHistoryRecord {
         this.upgradedAt = upgradedAt;
     }
 }
+
