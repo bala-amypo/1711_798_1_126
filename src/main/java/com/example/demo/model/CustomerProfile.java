@@ -1,4 +1,4 @@
-package com.example.demo.model;
+/*package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -53,4 +53,41 @@ public class CustomerProfile {
     public void setActive(Boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
+}*/
+
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+public class CustomerProfile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String customerId;
+
+    @Column(nullable = false)
+    private String fullName;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(unique = true, nullable = false)
+    private String phone;
+
+    private String currentTier = "BRONZE";
+    private Boolean active = true;
+
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
+
+    // Getters and Setters
 }
