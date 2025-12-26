@@ -1,4 +1,4 @@
-package com.example.demo.model;
+/*package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -35,4 +35,25 @@ public class VisitRecord {
 
     public String getChannel() { return channel; }
     public void setChannel(String channel) { this.channel = channel; }
+}
+*/
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+public class VisitRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    private CustomerProfile customer;
+
+    private LocalDate visitDate;
+    private String channel;
+
+    // Getters and Setters
 }

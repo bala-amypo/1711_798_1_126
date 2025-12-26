@@ -1,4 +1,4 @@
-package com.example.demo.model;
+/*package com.example.demo.model;
 
 import jakarta.persistence.*;
 
@@ -37,4 +37,24 @@ public class TierUpgradeRule {
 
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
+}
+*/package com.example.demo.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"fromTier", "toTier"})})
+public class TierUpgradeRule {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String fromTier;
+    private String toTier;
+    private Double minSpend;
+    private Integer minVisits;
+    private Boolean active;
+
+    // Getters and Setters
 }

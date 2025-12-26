@@ -1,4 +1,4 @@
-package com.example.demo.model;
+/*package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
@@ -50,5 +50,31 @@ public class TierHistoryRecord {
         this.upgradedAt = upgradedAt;
     }
 }
+*/
+package com.example.demo.model;
 
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+public class TierHistoryRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    private CustomerProfile customer;
+
+    private String oldTier;
+    private String newTier;
+    private String reason;
+    private LocalDateTime changedAt;
+
+    @PrePersist
+    public void prePersist() {
+        changedAt = LocalDateTime.now();
+    }
+
+    // Getters and Setters
+}
